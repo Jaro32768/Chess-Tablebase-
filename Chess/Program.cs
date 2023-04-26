@@ -1,6 +1,5 @@
 ﻿using Chess;
 using System.Text.Json;
-using System;
 
 Board board = new();
 board.PrintBoard();
@@ -12,5 +11,9 @@ using (var client = new HttpClient())
     var response = client.GetAsync($"http://tablebase.lichess.ovh/standard?fen={board._fen.Replace(" ", "_")}").Result;
     var json = response.Content.ReadAsStringAsync().Result;
     var chessResult = JsonSerializer.Deserialize<API.ChessResult>(json);
-    Console.WriteLine(chessResult.getMoves());
+    for (int i = 0; i < chessResult.getMoves().Split(' ').Length - 1; i++)
+    {
+        Console.WriteLine($"{i + 1}. {chessResult.getMoves().Split(' ')[i]}");
+    }
 }
+Console.WriteLine(JsonSerializer.Serialize(board._chessboard));

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using static Chess.API;
 
 namespace Chess
 {
@@ -29,13 +23,13 @@ namespace Chess
             public bool InsufficientMaterial { get; set; }
 
             [JsonPropertyName("dtz")]
-            public int Dtz { get; set; }
+            public int? Dtz { get; set; }
 
             [JsonPropertyName("precise_dtz")]
-            public int PreciseDtz { get; set; }
+            public int? PreciseDtz { get; set; }
 
             [JsonPropertyName("dtm")]
-            public int Dtm { get; set; }
+            public int? Dtm { get; set; }
 
             [JsonPropertyName("category")]
             public string Category { get; set; }
@@ -100,13 +94,13 @@ namespace Chess
             public bool InsufficientMaterial { get; set; }
 
             [JsonPropertyName("dtz")]
-            public int Dtz { get; set; }
+            public int? Dtz { get; set; }
 
             [JsonPropertyName("precise_dtz")]
-            public int PreciseDtz { get; set; }
+            public int? PreciseDtz { get; set; }
 
             [JsonPropertyName("dtm")]
-            public int Dtm { get; set; }
+            public int? Dtm { get; set; }
 
             [JsonPropertyName("category")]
             public string Category { get; set; }
