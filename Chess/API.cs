@@ -42,7 +42,7 @@ namespace Chess
                 return JsonSerializer.Serialize(this);
             }
             
-            public string getMoves()
+            public string getSanMoves()
             {
                 string output = string.Empty;
                 foreach (var move in Moves)
@@ -52,6 +52,15 @@ namespace Chess
                 return output;
             }
 
+            public string getUciMoves()
+            {
+                string output = string.Empty;
+                foreach (var move in Moves)
+                {
+                    output += move.Uci + " ";
+                }
+                return output;
+            }
             public string getWinningMoves()
             {
                 throw new NotImplementedException();
