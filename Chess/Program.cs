@@ -12,17 +12,40 @@ Board board = new();
 
 while (true)
 {
-    Console.WriteLine(board.GenerateFEN());
+    Console.Clear();
+    Console.WriteLine("FEN: " + board.GenerateFEN());
     board.PrintBoard();
     using (var client = new HttpClient())
     {
         var response = client.GetAsync($"http://tablebase.lichess.ovh/standard?fen={board._fen.Replace(" ", "_")}").Result;
         var json = response.Content.ReadAsStringAsync().Result;
         var chessResult = JsonSerializer.Deserialize<API.ChessResult>(json);
-        for (int i = 0; i < chessResult.getSanMoves().Split(' ').Length - 1; i++)
+
+        string[] sanMoves = chessResult.getSanMoves().Split(' ');
+        int numMoves = sanMoves.Length;
+
+        int numColumns = (int)Math.Ceiling((double)numMoves / 10);
+        int maxMoveNumberWidth = (numColumns * 10).ToString().Length;
+
+        for (int i = 0; i < numMoves; i += numColumns)
         {
-            Console.WriteLine($"{i + 1}. {chessResult.getSanMoves().Split(' ')[i]}");
+            for (int j = i; j < Math.Min(i + numColumns, numMoves); j++)
+            {
+                int moveNumber = j + 1;
+                string moveNumberStr = moveNumber.ToString().PadLeft(maxMoveNumberWidth);
+                
+                if (sanMoves[j].Length < 2) { Console.WriteLine(); break; }
+
+                Console.Write($"{moveNumberStr}. {sanMoves[j],-7}");
+
+                if (moveNumber % numColumns == 0 || j == numMoves - 1)
+                {
+                    Console.WriteLine();
+                }
+            }
         }
+
+
         Console.WriteLine("choose move:");
         string answer = Console.ReadLine();
         if (int.TryParse(answer, out int num)) board.MakeMove(chessResult.getUciMoves().Split(' ')[num - 1]);
@@ -30,6 +53,5 @@ while (true)
         {
             board.MakeMove(chessResult.getUciMoves().Split(' ')[Array.IndexOf(chessResult.getSanMoves().Split(' '), answer)]);
         }
-        else Console.WriteLine("invalid input");
     }
 }
