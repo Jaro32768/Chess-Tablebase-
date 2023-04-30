@@ -12,6 +12,7 @@ Board board = new();
 
 while (true)
 {
+    Console.WriteLine(board.GenerateFEN());
     board.PrintBoard();
     using (var client = new HttpClient())
     {
